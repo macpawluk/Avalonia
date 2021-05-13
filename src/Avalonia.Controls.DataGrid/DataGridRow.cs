@@ -487,6 +487,10 @@ namespace Avalonia.Controls
                         transform.X = Math.Round(OwningGrid.HorizontalOffset);
                         child.RenderTransform = transform;
                     }
+                    else
+                    {
+                        child.Arrange(new Rect(OwningGrid.HorizontalOffset, 0, finalSize.Width, finalSize.Height));
+                    }
                 }
             }
 
