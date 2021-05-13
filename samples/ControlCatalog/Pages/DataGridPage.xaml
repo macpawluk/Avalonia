@@ -6,6 +6,43 @@
     <local:GDPValueConverter x:Key="GDPConverter" />
   </UserControl.Resources>
   <UserControl.Styles>
+    <!-- The draft fix works only when DataGridFrozenGrid.IsFrozen is set to false, so the style changes that settings in order to present
+         how the fix is doing. -->
+    <Style Selector="DataGridRow">
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <DataGridFrozenGrid Name="PART_Root"
+                              RowDefinitions="*,Auto,Auto"
+                              ColumnDefinitions="Auto,*">
+
+            <Rectangle Name="BackgroundRectangle"
+                       Grid.RowSpan="2"
+                       Grid.ColumnSpan="2" />
+            <Rectangle x:Name="InvalidVisualElement"
+                       Grid.ColumnSpan="2"
+                       Fill="{DynamicResource DataGridRowInvalidBrush}" />
+
+            <DataGridRowHeader Name="PART_RowHeader"
+                               Grid.RowSpan="3"
+                               DataGridFrozenGrid.IsFrozen="False" />
+            <DataGridCellsPresenter Name="PART_CellsPresenter"
+                                    Grid.Column="1"
+                                    DataGridFrozenGrid.IsFrozen="False" />
+            <DataGridDetailsPresenter Name="PART_DetailsPresenter"
+                                      Grid.Row="1"
+                                      Grid.Column="1"
+                                      Background="{DynamicResource DataGridDetailsPresenterBackgroundBrush}" />
+            <Rectangle Name="PART_BottomGridLine"
+                       Grid.Row="2"
+                       Grid.Column="1"
+                       HorizontalAlignment="Stretch"
+                       Height="1" />
+          </DataGridFrozenGrid>
+        </ControlTemplate>
+      </Setter>
+    </Style>
+
     <Style Selector="DataGridCell.gdp">
       <Setter Property="FontWeight" Value="Bold" />
       <Setter Property="Background" Value="{Binding Path=GDP, Mode=OneWay, Converter={StaticResource GDPConverter}}" />
@@ -25,12 +62,19 @@
       <TabItem Header="DataGrid">
         <DataGrid Name="dataGrid1" Margin="12" CanUserResizeColumns="True" CanUserReorderColumns="True" CanUserSortColumns="True" HeadersVisibility="All">
           <DataGrid.Columns>
-            <DataGridTextColumn Header="Country" Binding="{Binding Name}" Width="6*" />
+            <DataGridTextColumn Header="Country" Binding="{Binding Name}" Width="300" />
             <!-- CompiledBinding example of usage. -->
-            <DataGridTextColumn Header="Region" Binding="{CompiledBinding Region}" Width="4*" x:DataType="local:Country" />
-            <DataGridTextColumn Header="Population" Binding="{Binding Population}" Width="3*" />
-            <DataGridTextColumn Header="Area" Binding="{Binding Area}" Width="3*" />
-            <DataGridTextColumn Header="GDP" Binding="{Binding GDP}" Width="3*" CellStyleClasses="gdp" />
+            <DataGridTextColumn Header="Region" Binding="{CompiledBinding Region}" Width="300" x:DataType="local:Country" />
+            <DataGridTextColumn Header="Population" Binding="{Binding Population}" Width="300" />
+            <DataGridTextColumn Header="Area" Binding="{Binding Area}" Width="300" />
+            <DataGridTextColumn Header="GDP" Binding="{Binding GDP}" Width="300" CellStyleClasses="gdp" />
+
+            <DataGridTextColumn Header="Country" Binding="{Binding Name}" Width="300" />
+            <!-- CompiledBinding example of usage. -->
+            <DataGridTextColumn Header="Region" Binding="{CompiledBinding Region}" Width="300" x:DataType="local:Country" />
+            <DataGridTextColumn Header="Population" Binding="{Binding Population}" Width="300" />
+            <DataGridTextColumn Header="Area" Binding="{Binding Area}" Width="300" />
+            <DataGridTextColumn Header="GDP" Binding="{Binding GDP}" Width="300" CellStyleClasses="gdp" />
           </DataGrid.Columns>
         </DataGrid>
       </TabItem>

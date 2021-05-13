@@ -62,7 +62,8 @@ namespace ControlCatalog.Pages
 
         private void Dg1_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            e.Row.Header = e.Row.GetIndex() + 1;
+            // Disabling row's headers for now - but it requires handling
+            //e.Row.Header = e.Row.GetIndex() + 1;
         }
 
         private void InitializeComponent()
